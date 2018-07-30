@@ -10,7 +10,7 @@ import (
 
 const shortDuration = 100 * time.Millisecond
 
-func TestCopyValuesCancel(t *testing.T) {
+func TestWithValuesCancel(t *testing.T) {
 	t.Parallel()
 
 	// Create main context with key value and cancel
@@ -39,7 +39,7 @@ func TestCopyValuesCancel(t *testing.T) {
 	assertValid(t, ctxCopy)
 }
 
-func TestCopyValuesDeadline(t *testing.T) {
+func TestWithValuesDeadline(t *testing.T) {
 	t.Parallel()
 
 	// Create main context with timeout

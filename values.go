@@ -1,13 +1,11 @@
 package ctxutil
 
-import (
-	"context"
-)
+import "context"
 
 // WithValues composes values from multiple contexts.
 // It returns a context that exposes the deadline and cancel of `ctx`,
-// and combined values from `ctx` and `valsCtx`.
-// A value in `ctx` context overrides a value with the same key in `valsCtx` context.
+// and combined values from `ctx` and `values`.
+// A value in `ctx` context overrides a value with the same key in `values` context.
 func WithValues(ctx, values context.Context) context.Context {
 	return &composed{Context: ctx, nextValues: values}
 }

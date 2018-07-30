@@ -19,7 +19,7 @@ The suggested function `ctx := ctxutil.WithValues(ctx, values)` does the followi
 1. When `ctx.Value()` is called, the key is searched in the original `ctx` and if not found it searches in `values`.
 2. When `Done()`/`Deadline()`/`Err()` are called, it is uses original `ctx`'s state.
 
-## Example
+### Example
 
 This is how an `http.Handler` should run a goroutine that need values from the context.
 
