@@ -13,13 +13,13 @@ const shortDuration = 100 * time.Millisecond
 func TestCopyValuesCancel(t *testing.T) {
 	t.Parallel()
 
-	// Create main context with key values and cancel
+	// Create main context with key value and cancel
 	ctxOrig, cancel := context.WithCancel(context.Background())
 	ctxOrig = context.WithValue(ctxOrig, "key1", "value1")
 	ctxOrig = context.WithValue(ctxOrig, "key2", "value2")
 
 	// Create a copy of the context
-	ctxCopy := CopyValues(ctxOrig, context.Background())
+	ctxCopy := WithValues(context.Background(), ctxOrig)
 	ctxCopy = context.WithValue(ctxCopy, "key2", "value2-2")
 	ctxCopy = context.WithValue(ctxCopy, "key3", "value3")
 
@@ -42,12 +42,12 @@ func TestCopyValuesCancel(t *testing.T) {
 func TestCopyValuesDeadline(t *testing.T) {
 	t.Parallel()
 
-	// Create main context with key values and cancel
+	// Create main context with timeout
 	ctxOrig, cancel := context.WithTimeout(context.Background(), shortDuration)
 	defer cancel()
 
 	// Create a copy of the context
-	ctxCopy := CopyValues(ctxOrig, context.Background())
+	ctxCopy := WithValues(context.Background(), ctxOrig)
 
 	// Wait for deadline
 	time.Sleep(2 * shortDuration)
