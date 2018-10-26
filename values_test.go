@@ -8,8 +8,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const shortDuration = 100 * time.Millisecond
-
 func TestWithValuesCancel(t *testing.T) {
 	t.Parallel()
 
@@ -57,34 +55,25 @@ func TestWithValuesDeadline(t *testing.T) {
 }
 
 func assertValid(t *testing.T, ctx context.Context) {
+	t.Helper()
 	_, deadline := ctx.Deadline()
 	assert.False(t, deadline)
+	assertNotDone(t, ctx)
 	assert.Nil(t, ctx.Err())
-	select {
-	case <-ctx.Done():
-		t.Error("context was done")
-	case <-time.After(shortDuration):
-	}
 }
 
 func assertCancelled(t *testing.T, ctx context.Context) {
+	t.Helper()
 	_, deadline := ctx.Deadline()
 	assert.False(t, deadline)
+	assertDone(t, ctx)
 	assert.NotNil(t, ctx.Err())
-	select {
-	case <-ctx.Done():
-	case <-time.After(shortDuration):
-		t.Error("context was not done")
-	}
 }
 
 func assertDeadlined(t *testing.T, ctx context.Context) {
+	t.Helper()
 	_, deadline := ctx.Deadline()
 	assert.True(t, deadline)
+	assertDone(t, ctx)
 	assert.NotNil(t, ctx.Err())
-	select {
-	case <-ctx.Done():
-	case <-time.After(shortDuration):
-		t.Error("context was not done")
-	}
 }
