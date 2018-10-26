@@ -1,0 +1,73 @@
+diff --git a/signal.go b/signal.go
+index 97572b1..3faf912 100644
+--- a/signal.go
++++ b/signal.go
+@@ -17,25 +17,20 @@ func (e ErrSignal) Error() string {
+ 	return fmt.Sprintf("got signal: %s", e.Signal)
+ }
+ 
+-// signalNotify is the signal notify function.
+-// It is used in a variable for testing purposes.
+-var signalNotify = signal.Notify
+-
+ // WithSignal returns a context which is done when an OS signal is sent.
+ // parent is a parent context to wrap.
+-// sigWhiteList is a list of signals to listen on. According to the
+-// signal.Notify behavior, an empty list will listen to any OS signal.
++// sigWhiteList is a list of signals to listen on.
++// According to the signal.Notify behavior, an empty list will listen
++// to any OS signal.
+ // If an OS signal closed this context, ErrSignal will be returned in
+-// the Err() method.
++// the Err() method of the returned context.
+ // This method creates the signal channel and invokes a goroutine.
+ func WithSignal(parent context.Context, sigWhiteList ...os.Signal) context.Context {
+-	sig := make(chan os.Signal, 1)
+-	signalNotify(sig, sigWhiteList...)
+-	s := &signalCtx{
++	s := &signalContext{
+ 		Context: parent,
+ 		done:    make(chan struct{}),
+ 	}
+-	go s.watch(sig)
++	go s.watch(sigWhiteList)
+ 	return s
+ }
+ 
+@@ -52,21 +47,32 @@ func Interrupt() context.Context {
+ 	return WithSignal(context.Background(), os.Interrupt)
+ }
+ 
+-type signalCtx struct {
++// signalContext implements the context interface.
++// It is being cancelled with OS signal cancellation.
++type signalContext struct {
+ 	context.Context
+ 	done chan struct{}
+ 	err  error
+ }
+ 
+-func (s *signalCtx) Done() <-chan struct{} {
++func (s *signalContext) Done() <-chan struct{} {
+ 	return s.done
+ }
+ 
+-func (s *signalCtx) Err() error {
++func (s *signalContext) Err() error {
+ 	return s.err
+ }
+ 
+-func (s *signalCtx) watch(sigCh <-chan os.Signal) {
++// signalNotify is the signal notify function.
++// It is used in a variable for testing purposes.
++var signalNotify = signal.Notify
++
++// watch should be run in a goroutine when creating a signalContext.
++// It
++func (s *signalContext) watch(sigWhiteList []os.Signal) {
++	sigCh := make(chan os.Signal, 1)
++	signalNotify(sigCh, sigWhiteList...)
++
+ 	select {
+ 	case <-s.Context.Done():
+ 		s.err = s.Context.Err()

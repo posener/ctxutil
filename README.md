@@ -1,5 +1,10 @@
 # ctxutil
 
+[![Build Status](https://travis-ci.org/posener/ctxutil.svg?branch=master)](https://travis-ci.org/posener/ctxutil)
+[![codecov](https://codecov.io/gh/posener/ctxutil/branch/master/graph/badge.svg)](https://codecov.io/gh/posener/ctxutil)
+[![GoDoc](https://godoc.org/github.com/posener/ctxutil?status.svg)](http://godoc.org/github.com/posener/ctxutil)
+[![Go Report Card](https://goreportcard.com/badge/github.com/posener/ctxutil)](https://goreportcard.com/report/github.com/posener/ctxutil)
+
 A collection of functions for contexts.
 
 ## WithValues
