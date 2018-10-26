@@ -8,27 +8,29 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+type key string
+
 func TestWithValuesCancel(t *testing.T) {
 	t.Parallel()
 
 	// Create main context with key value and cancel
 	ctxOrig, cancel := context.WithCancel(context.Background())
-	ctxOrig = context.WithValue(ctxOrig, "key1", "value1")
-	ctxOrig = context.WithValue(ctxOrig, "key2", "value2")
+	ctxOrig = context.WithValue(ctxOrig, key("key1"), "value1")
+	ctxOrig = context.WithValue(ctxOrig, key("key2"), "value2")
 
 	// Create a copy of the context
 	ctxCopy := WithValues(context.Background(), ctxOrig)
-	ctxCopy = context.WithValue(ctxCopy, "key2", "value2-2")
-	ctxCopy = context.WithValue(ctxCopy, "key3", "value3")
+	ctxCopy = context.WithValue(ctxCopy, key("key2"), "value2-2")
+	ctxCopy = context.WithValue(ctxCopy, key("key3"), "value3")
 
 	// Test copy of key and values of the copied context and the original context
-	assert.Equal(t, "value1", ctxCopy.Value("key1").(string))
-	assert.Equal(t, "value2-2", ctxCopy.Value("key2").(string))
-	assert.Equal(t, "value3", ctxCopy.Value("key3").(string))
+	assert.Equal(t, "value1", ctxCopy.Value(key("key1")).(string))
+	assert.Equal(t, "value2-2", ctxCopy.Value(key("key2")).(string))
+	assert.Equal(t, "value3", ctxCopy.Value(key("key3")).(string))
 
-	assert.Equal(t, "value1", ctxOrig.Value("key1").(string))
-	assert.Equal(t, "value2", ctxOrig.Value("key2").(string))
-	assert.Nil(t, ctxOrig.Value("key3"))
+	assert.Equal(t, "value1", ctxOrig.Value(key("key1")).(string))
+	assert.Equal(t, "value2", ctxOrig.Value(key("key2")).(string))
+	assert.Nil(t, ctxOrig.Value(key("key3")))
 
 	// Cancel the original context
 	cancel()
