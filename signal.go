@@ -26,6 +26,16 @@ func (e ErrSignal) Error() string {
 // the Err() method of the returned context.
 //
 // This method creates the signal channel and invokes a goroutine.
+//
+// ### Examples
+//
+// ```go
+// func main() {
+//     // Create a context which will be cancelled on SIGINT.
+//     ctx := ctxutil.WithSignal(context.Background(), os.Interrupt)
+//     // use ctx...
+// }
+// ```
 func WithSignal(parent context.Context, sigWhiteList ...os.Signal) context.Context {
 	s := &signalContext{
 		Context: parent,
@@ -43,12 +53,14 @@ func WithSignal(parent context.Context, sigWhiteList ...os.Signal) context.Conte
 // Interrupt is a convenience function for catching SIGINT on a
 // background context.
 //
-// Usage:
+// ### Example:
 //
+// golang```
 //		func main() {
 //			ctx := ctxutil.Interrupt()
 //			// use ctx...
 //		}
+// ```
 func Interrupt() context.Context {
 	return WithSignal(context.Background(), os.Interrupt)
 }
