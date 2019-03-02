@@ -55,11 +55,11 @@ func WithSignal(parent context.Context, sigWhiteList ...os.Signal) context.Conte
 //
 // ### Example:
 //
-// golang```
-//		func main() {
-//			ctx := ctxutil.Interrupt()
-//			// use ctx...
-//		}
+// ```go
+// func main() {
+//		ctx := ctxutil.Interrupt()
+// 		// use ctx...
+// }
 // ```
 func Interrupt() context.Context {
 	return WithSignal(context.Background(), os.Interrupt)
