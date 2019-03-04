@@ -53,7 +53,7 @@ func WithSignal(parent context.Context, sigWhiteList ...os.Signal) context.Conte
 //
 // ### Example:
 //
-// 	// func main() {
+// 	func main() {
 //		ctx := ctxutil.Interrupt()
 // 		// use ctx...
 // 	}
