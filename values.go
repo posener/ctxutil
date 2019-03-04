@@ -37,21 +37,19 @@ import "context"
 // This is how an `http.Handler` should run a goroutine that need
 // values from the context.
 //
-// ```go
-// func handle(w http.ResponseWriter, r *http.Request) {
-//     // [ do something ... ]
+// 	func handle(w http.ResponseWriter, r *http.Request) {
+// 		// [ do something ... ]
 //
-//     // Create async task context that enables it run for 1 minute, for example
-//     asyncCtx, asyncCancel = ctxutil.WithTimeout(context.Background(), time.Minute)
-//     // Use values from the request context
-//     asyncCtx = ctxutil.WithValues(asyncCtx, r.Context())
-//     // Run the async task with it's context
-//     go func() {
-//         defer asyncCancel()
-//         asyncTask(asyncCtx)
-//     }()
-// }
-// ````
+// 		// Create async task context that enables it run for 1 minute, for example
+// 		asyncCtx, asyncCancel = ctxutil.WithTimeout(context.Background(), time.Minute)
+// 		// Use values from the request context
+// 		asyncCtx = ctxutil.WithValues(asyncCtx, r.Context())
+// 		// Run the async task with it's context
+// 		go func() {
+// 			defer asyncCancel()
+// 			asyncTask(asyncCtx)
+// 		}()
+// 	}
 func WithValues(ctx, values context.Context) context.Context {
 	return &composed{Context: ctx, nextValues: values}
 }

@@ -27,15 +27,13 @@ func (e ErrSignal) Error() string {
 //
 // This method creates the signal channel and invokes a goroutine.
 //
-// ### Examples
+// ### Example
 //
-// ```go
-// func main() {
-//     // Create a context which will be cancelled on SIGINT.
-//     ctx := ctxutil.WithSignal(context.Background(), os.Interrupt)
-//     // use ctx...
-// }
-// ```
+// 	func main() {
+// 		// Create a context which will be cancelled on SIGINT.
+// 		ctx := ctxutil.WithSignal(context.Background(), os.Interrupt)
+// 		// use ctx...
+// 	}
 func WithSignal(parent context.Context, sigWhiteList ...os.Signal) context.Context {
 	s := &signalContext{
 		Context: parent,
@@ -55,12 +53,10 @@ func WithSignal(parent context.Context, sigWhiteList ...os.Signal) context.Conte
 //
 // ### Example:
 //
-// ```go
-// func main() {
+// 	// func main() {
 //		ctx := ctxutil.Interrupt()
 // 		// use ctx...
-// }
-// ```
+// 	}
 func Interrupt() context.Context {
 	return WithSignal(context.Background(), os.Interrupt)
 }
