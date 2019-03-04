@@ -19,7 +19,7 @@ background context.
 
 ### Example:
 
-	// func main() {
+	func main() {
 		ctx := ctxutil.Interrupt()
 		// use ctx...
 	}
