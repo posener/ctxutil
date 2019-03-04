@@ -10,7 +10,7 @@ Package ctxutil is a collection of functions for contexts.
 
 ## Functions
 
-### Interrupt
+### func [Interrupt](https://github.com/posener/ctxutil/blob/master/signal.go#L60)
 
 `func Interrupt() context.Context`
 
@@ -24,7 +24,7 @@ background context.
 		// use ctx...
 	}
 
-### WithSignal
+### func [WithSignal](https://github.com/posener/ctxutil/blob/master/signal.go#L37)
 
 `func WithSignal(parent context.Context, sigWhiteList ...os.Signal) context.Context`
 
@@ -46,7 +46,7 @@ This method creates the signal channel and invokes a goroutine.
 		// use ctx...
 	}
 
-### WithValues
+### func [WithValues](https://github.com/posener/ctxutil/blob/master/values.go#L53)
 
 `func WithValues(ctx, values context.Context) context.Context`
 
