@@ -19,12 +19,10 @@ background context.
 
 ### Example:
 
-```go
-func main() {
+	// func main() {
 		ctx := ctxutil.Interrupt()
 		// use ctx...
-}
-```
+	}
 
 ### WithSignal
 
@@ -40,15 +38,13 @@ the Err() method of the returned context.
 
 This method creates the signal channel and invokes a goroutine.
 
-### Examples
+### Example
 
-```go
-func main() {
-    // Create a context which will be cancelled on SIGINT.
-    ctx := ctxutil.WithSignal(context.Background(), os.Interrupt)
-    // use ctx...
-}
-```
+	func main() {
+		// Create a context which will be cancelled on SIGINT.
+		ctx := ctxutil.WithSignal(context.Background(), os.Interrupt)
+		// use ctx...
+	}
 
 ### WithValues
 
@@ -89,21 +85,18 @@ does the following:
 This is how an `http.Handler` should run a goroutine that need
 values from the context.
 
-```go
-func handle(w http.ResponseWriter, r *http.Request) {
-    // [ do something ... ]
+	func handle(w http.ResponseWriter, r *http.Request) {
+		// [ do something ... ]
 
-    // Create async task context that enables it run for 1 minute, for example
-    asyncCtx, asyncCancel = ctxutil.WithTimeout(context.Background(), time.Minute)
-    // Use values from the request context
-    asyncCtx = ctxutil.WithValues(asyncCtx, r.Context())
-    // Run the async task with it's context
-    go func() {
-        defer asyncCancel()
-        asyncTask(asyncCtx)
-    }()
-}
-````
-
+		// Create async task context that enables it run for 1 minute, for example
+		asyncCtx, asyncCancel = ctxutil.WithTimeout(context.Background(), time.Minute)
+		// Use values from the request context
+		asyncCtx = ctxutil.WithValues(asyncCtx, r.Context())
+		// Run the async task with it's context
+		go func() {
+			defer asyncCancel()
+			asyncTask(asyncCtx)
+		}()
+	}
 
 Created by [goreadme](https://github.com/apps/goreadme)
